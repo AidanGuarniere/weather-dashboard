@@ -7,6 +7,10 @@ let urlOneCall =
 let cardContainerEl = document.querySelector("#cardContainer");
 // grab card
 let cardEl = document.querySelector("#card");
+// grab card title
+let cardTitleEl = document.querySelector("#card-title")
+// grab card body
+let cardBodyEl = document.querySelector("#card-body")
 
 // send user searchInput to fetch request
 function searchUserInput() {
@@ -145,24 +149,27 @@ function createListItem(data) {
 
 // display city name from currentWeather
 function displayName(data) {
-  let cityEl = document.createElement("h1");
+  let cityEl = document.createElement("h2");
   // clear card content
-  cardEl.innerHTML = " ";
+  cardTitleEl.innerHTML = " ";
   // add city name 
-  cityEl.textContent = data.name;
+  cityEl.textContent = data.name + "   ";
   // append to card
-  cardEl.append(cityEl);
+  cardTitleEl.append(cityEl);
 }
 
 
 // display oneCall api data
 function displayRequest(data) {
+  cardBodyEl.innerHTML = ""
   console.log(data);
 
   // card content start 
   // city and date
-  let dateEl = document.createElement("p");
-  dateEl.textContent = data.current.dt;
+  let dateEl = document.createElement("h2");
+  let decoyDate = moment().format("MM/ D/ YYYY");
+  dateEl.setAttribute("style", "margin-left: 15px")   
+  dateEl.textContent = decoyDate
 
   // weather icon
   let imgEl = document.createElement("img");
@@ -194,13 +201,14 @@ function displayRequest(data) {
   // card content end
 
 
-  // append content to card
-  cardEl.append(dateEl);
-  cardEl.append(imgEl);
-  cardEl.append(tempEl);
-  cardEl.append(humidityEl);
-  cardEl.append(windEl);
-  cardEl.append(uvEl);
+  // append content to card title
+  cardTitleEl.append(dateEl);
+  cardTitleEl.append(imgEl);
+  // append content to card body
+  cardBodyEl.append(tempEl);
+  cardBodyEl.append(humidityEl);
+  cardBodyEl.append(windEl);
+  cardBodyEl.append(uvEl);
 }
 
 function displayRequestBlue(data){

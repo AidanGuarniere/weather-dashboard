@@ -19,18 +19,20 @@
     <main>
         <div class="row">
             <div class=col-4>
+                <!--search bar-->
                 <div class='searchContainer bg-light' style='padding-left: 10px;'>
                     <h5 class='text-dark'>Search for a City:</h5>
                     <input id='userSearch' type='text'/>
                     <button class='btn btn-primary' id='search-button' style='margin-bottom: 10px;'> <i class='fa fa-search'></i></button>
                     <div class="card" style="width: 18rem;">
-                        <ul class="list-group list-group-flush" id='location'></ul>
+                        <div class="list-group list-group-flush" id='location'></div>
                       </div>
                 </div>
             </div>
         </div>
+        <!--weather info card-->
         <div id="cardContainer" class="cardContainer">
-            
+            <div id="card" class="card-body"></div>
         </div>
     </main>
     

@@ -1,6 +1,12 @@
 let urlCurrentWeather = 'https://api.openweathermap.org/data/2.5/weather?q=+downey+&appid=951ac77f9019903879e8df930449019e'
 let urlOneCall = "https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&daily&exclude=hourly,minutely&units=imperial&appid=951ac77f9019903879e8df930449019e"
 
+// grab card container
+let cardContainerEl = document.querySelector("#cardContainer")
+// grab card
+let cardEl = document.querySelector("#card")
+ 
+
 
 
 // send user searchInput to fetch request
@@ -25,12 +31,12 @@ fetch('https://api.openweathermap.org/data/2.5/weather?q='
   })
   
   .then(function (data) {
+    createListItem(data)
+      displayName(data)
     let coordinates = {
         longitude:data.coord.lon,
         latitude:data.coord.lat
     };
-    
-  
     return coordinates;
     
   })
@@ -47,6 +53,7 @@ fetch('https://api.openweathermap.org/data/2.5/weather?q='
   //consoloe log JSON response
   .then (function(data){
     displayRequest(data)
+    
     //createListItem(data)
   })
   .catch(function (error) {
@@ -55,39 +62,88 @@ fetch('https://api.openweathermap.org/data/2.5/weather?q='
 }
 
 
+// new fetch for button 
+function buttonFetch(buttonEl) {
+fetch('https://api.openweathermap.org/data/2.5/weather?q='
+    + buttonEl +
+    '&units=imperial&appid=951ac77f9019903879e8df930449019e')
+  .then(function (response) {
+    if (!response.ok) { // Request failed, go to catch
+      throw Error(response.statusText); // throw will stop execution of the promise chain and jump to catch
+    }
+    return response.json()
+  })
+  
+  .then(function (data) {
+      displayName(data)
+    let coordinates = {
+        longitude:data.coord.lon,
+        latitude:data.coord.lat
+    };
+    return coordinates;
+    
+  })
+  // pass coordinate object along
+  .then(function(response){
+      console.log(response)
+      return fetch('https://api.openweathermap.org/data/2.5/onecall?lat='
+            + response.latitude + '&lon=' + response.longitude + '&daily&exclude=hourly,minutely&units=imperial&appid=951ac77f9019903879e8df930449019e')
+  })
+  // return response in JSON
+  .then (function(response){  
+    return response.json()
+  })
+  //consoloe log JSON response
+  .then (function(data){
+    displayRequest(data)
+    
+    //createListItem(data)
+  })
+  .catch(function (error) {
+    alert(error);
+  });
+}
+
+
+
+
+
 //create list items in search card
 function createListItem(data){
-   
-    
     //create a button when function is called
-    var buttonEl = document.createElement('button')
+    var buttonEl = document.createElement('button');
     //give created button an id of idCounter
     buttonEl.setAttribute('id',data.name);
     //give button a bootstrap class of list-group-item
     buttonEl.setAttribute('class', 'list-group-item');
+    buttonEl.setAttribute('onclick', `buttonFetch("${data.name}")`);
     //set ulEl to the ul with id of #location from index.html
-    var ulEl = document.querySelector('#location');
+    var divEl = document.querySelector('#location');
     //append buttonEl to ulEl
-    ulEl.appendChild(buttonEl);
+    divEl.appendChild(buttonEl);
     //set text content of buttonEl to be the name of the location
     buttonEl.textContent = data.name;
-    
-    document.getElementById(data.name).addEventListener('click', fetchRequest(data.name) );
-     
 }
 
+     
+
+// display city name from currentWeather 
+function displayName(data){
+    let cityEl = document.createElement("h1")
+    cardEl.innerHTML=" "
+    cityEl.textContent = data.name
+    cardEl.append(cityEl)
+}
+
+// display oneCall api data
 function displayRequest(data){
     console.log(data);
-    
-    let cardContainerEl = document.querySelector("#cardContainer")
-    // clear old content
-    cardContainerEl.innerHTML = " ";
-    // create card 
-    let cardEl = document.createElement("div");
-    cardEl.classList = "card-body"
 
     // create card content 
-   
+    // city and date
+    let dateEl = document.createElement('p')
+    dateEl.textContent = data.current.dt
+    
     // weather icon
     let imgEl = document.createElement("img");
     imgEl.setAttribute('src', 'http://openweathermap.org/img/w/' + data.current.weather[0].icon + '.png')
@@ -105,15 +161,14 @@ function displayRequest(data){
     uvEl.textContent = data.current.uvi
 
     // append content to card
-    //cardEl.append(h1El);
+    cardEl.append(dateEl);
     cardEl.append(imgEl);
     cardEl.append(tempEl);
     cardEl.append(humidityEl)
     cardEl.append(windEl);
+    cardEl.append(uvEl)
     
 
-    // append card to container
-    cardContainerEl.appendChild(cardEl);
    
 }
 

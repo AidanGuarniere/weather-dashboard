@@ -25,6 +25,6 @@ git clone git@github.com:AidanGuarniere/weather-dashboard.git
 
 # Screenshot of Deployed Website
 <img 
-src = "weather-dashboard.png"
-alt = "Screenshot of deployed Weather Dashboard"
+src = weather-dashboard.png
+alt = 'Screenshot of deployed Weather Dashboard'
 >

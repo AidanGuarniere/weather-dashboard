@@ -175,14 +175,21 @@ function displayRequest(data) {
   tempEl.textContent = data.current.temp + " °F";
   // humidity
   let humidityEl = document.createElement("p");
-  humidityEl.textContent = data.current.humidity + "%";
+  humidityEl.textContent = data.current.humidity + "% Humidity";
   // wind speed
   let windEl = document.createElement("p");
   windEl.textContent = data.current.wind_speed + " mph";
   // uv index
   let uvEl = document.createElement("p");
   uvEl.textContent ="UV Index: " + data.current.uvi;
-  uvEl.setAttribute("class", "bg-danger",)
+  if(data.current.uvi > 5){
+    uvEl.setAttribute('class', 'bg-danger');
+    }
+    else if (data.current.uvi>=3){
+      uvEl.setAttribute('class', 'bg-warning');
+    } else{
+      uvEl.setAttribute('class', 'bg-success');
+    }
   uvEl.setAttribute("style", "width: fit-content")
   // card content end
 
@@ -223,13 +230,13 @@ function displayRequestBlue(data){
     temp5.textContent = data.daily[4].temp.day + "°F"
     // humidity forecast
     let humidity1 = document.getElementById('humidity1')
-    humidity1.textContent = data.daily[0].humidity + "%"
+    humidity1.textContent = data.daily[0].humidity + "% Humidity"
     let humidity2 = document.getElementById('humidity2')
-    humidity2.textContent = data.daily[1].humidity + "%"
+    humidity2.textContent = data.daily[1].humidity + "% Humidity"
     let humidity3 = document.getElementById('humidity3')
-    humidity3.textContent = data.daily[2].humidity + "%"
+    humidity3.textContent = data.daily[2].humidity + "% Humidity"
     let humidity4 = document.getElementById('humidity4')
-    humidity4.textContent = data.daily[3].humidity + "%"
+    humidity4.textContent = data.daily[3].humidity + "% Humidity"
     let humidity5 = document.getElementById('humidity5')
-    humidity5.textContent = data.daily[4].humidity + "%"
+    humidity5.textContent = data.daily[4].humidity + "% Humidity"
 }

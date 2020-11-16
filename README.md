@@ -1,6 +1,6 @@
 # Weather Dashboard
 
-Weather Dashboard is a web application that allows users to search the name of a city and recieve weather and forecast data from the OpenWeather API. 
+Weather Dashboard is a web application that allows users to search the name of a city and receive weather and forecast data from the OpenWeather API. 
 
 # Requirements 
 GIVEN a weather dashboard with form inputs<br>
